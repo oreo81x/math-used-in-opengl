@@ -1,0 +1,22 @@
+# default values for world directions (front, right and up).
+
+    glm::vec3 Camera::getWorldFront  () const { return glm::vec3(0.0f, 0.0f, -1.0f); }
+    glm::vec3 Camera::getWorldRight  () const { return glm::vec3(1.0f, 0.0f,  0.0f); }
+    glm::vec3 Camera::getWorldUp     () const { return glm::vec3(0.0f, 1.0f,  0.0f); }
+
+# getting front aka(forward) vector from position and target.
+
+    glm::vec3 Camera::getLocalFront  () const {
+        return glm::normalize(getTarget() - getPosition());
+    }
+
+# getting front aka(forward) vector from the matrix.
+
+    glm::vec3 Camera::getLocalFront  () const {
+        return glm::normalize(glm::vec3(glm::inverse(getViewMatrix())[2]) * glm::vec3(1.0f, -1.0f, -1.0f));
+    }
+
+# getting right and up vectors
+
+    glm::vec3 Camera::getLocalRight  () const { return glm::normalize(glm::cross(getLocalFront(), getWorldUp    ()) * glm::vec3( 1.0f, -1.0f, 1.0f)); }
+    glm::vec3 Camera::getLocalUp     () const { return glm::normalize(glm::cross(getLocalRight(), getLocalFront ()) * glm::vec3(-1.0f,  1.0f, 1.0f)); }
