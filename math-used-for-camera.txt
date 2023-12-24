@@ -10,6 +10,18 @@
         return glm::normalize(getTarget() - getPosition());
     }
 
+#getting right and up vectors
+
+    glm::vec3 Camera::getLocalRight  () const { return glm::normalize(glm::cross(getLocalFront(), getWorldUp    ())); }
+    glm::vec3 Camera::getLocalUp     () const { return glm::normalize(glm::cross(getLocalRight(), getLocalFront ())); }
+
+# getting front, right and up vectors from model transformation matrix
+
+    glm::vec3 modelLocalRight = glm::normalize(glm::vec3(modelTransformMatrix[0][0], modelTransformMatrix[1][0], modelTransformMatrix[2][0]));
+    glm::vec3 modelLocalUp    = glm::normalize(glm::vec3(modelTransformMatrix[0][1], modelTransformMatrix[1][1], modelTransformMatrix[2][1]));
+    glm::vec3 modelLocalFront = glm::normalize(glm::vec3(modelTransformMatrix[0][2], modelTransformMatrix[1][2], modelTransformMatrix[2][2]));
+
+# from here ithink it's usually wrong so do not use.
 # getting front aka(forward) vector from the matrix.
 
     glm::vec3 Camera::getLocalFront  () const {
